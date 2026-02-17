@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
 :root {
-  /* Monokai Light */
-  --bg: #fafafa;
-  --bg2: #f0f0f0;
-  --text: #403e41;
-  --title: #2d2a2e;
-  --brand: #ff6188;        /* Reddish Pink */
-  --border: #dcdcdc;
+  /* Monokai Dark Variables */
+  --bg: #2D2A2E;
+  --bg2: #403E41;
+  --text: #FCFCFA;
+  --title: #FFD866;
+  --brand: #A9DC76;
+  --border: #5b595c;
 
   /* Keep layout variables */
   --font: "Inter", sans-serif;
@@ -27,14 +27,14 @@
   --scale-xl: 1.4rem;
 }
 
-/* Monokai Dark */
-[data-theme="dark"] {
-  --bg: #2D2A2E;           /* Dark Grey */
-  --bg2: #403E41;          /* Lighter Grey */
-  --text: #FCFCFA;         /* White */
-  --title: #FFD866;        /* Yellow */
-  --brand: #A9DC76;        /* Lime Green */
-  --border: #5b595c;
+/* Monokai Light */
+[data-theme="light"] {
+  --bg: #fafafa;
+  --bg2: #f0f0f0;
+  --text: #403e41;
+  --title: #2d2a2e;
+  --brand: #ff6188;
+  --border: #dcdcdc;
 }
 
 /* smooth transition on theme switching */
