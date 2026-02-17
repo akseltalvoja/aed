@@ -31,6 +31,8 @@
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme) {
     setTheme(savedTheme);
+  } else {
+    setTheme('dark');
   }
   
   themeToggle.addEventListener('click', function() {
