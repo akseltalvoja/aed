@@ -1,42 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
 :root {
-  --bg: rgb(255, 252, 240);
-  --bg2: rgb(242, 240, 229);
-  --text: #6f6e69;
-  --title: #343331;
-  --brand: rgb(58, 169, 159);
-  --border: rgb(230, 228, 217);
-  
+  /* Monokai Light */
+  --bg: #fafafa;
+  --bg2: #f0f0f0;
+  --text: #403e41;
+  --title: #2d2a2e;
+  --brand: #ff6188;        /* Reddish Pink */
+  --border: #dcdcdc;
+
+  /* Keep layout variables */
   --font: "Inter", sans-serif;
   --weight-medium: 400;
   --weight-bold: 600;
-  
   --space-xs: 0.5rem;
   --space-sm: 1rem;
   --space-md: 1.5rem;
   --space-lg: 2rem;
   --space-xl: 3rem;
-  
   --max-width: 48rem;
   --line-height: 1.5;
-  
-  /* 5-level typography scale (1rem = 15px) */
-  --scale-xs: 0.8rem;     /* 12px */
-  --scale-sm: 0.933rem;   /* 14px */
-  --scale-base: 1rem;     /* 15px */
-  --scale-lg: 1.2rem;     /* 18px */
-  --scale-xl: 1.4rem;     /* 21px */
+  --scale-xs: 0.8rem;
+  --scale-sm: 0.933rem;
+  --scale-base: 1rem;
+  --scale-lg: 1.2rem;
+  --scale-xl: 1.4rem;
 }
 
-/* Dark theme variables */
+/* Monokai Dark */
 [data-theme="dark"] {
-  --bg: #18181c;
-  --bg2: #23232a;
-  --text: #d6d6d6;
-  --title: #fff;
-  --brand: #3ac9b0;
-  --border: #33343a;
+  --bg: #2D2A2E;           /* Dark Grey */
+  --bg2: #403E41;          /* Lighter Grey */
+  --text: #FCFCFA;         /* White */
+  --title: #FFD866;        /* Yellow */
+  --brand: #A9DC76;        /* Lime Green */
+  --border: #5b595c;
 }
 
 /* smooth transition on theme switching */
