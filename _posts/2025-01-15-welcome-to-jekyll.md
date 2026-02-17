@@ -1,6 +1,6 @@
 ---
-title: "Test postitus 1"
-date: 2024-01-15
+title: "Test postitus 2"
+date: 2025-01-15
 categories: [jekyll, digital-garden]
 tags: [welcome, introduction]
 ---

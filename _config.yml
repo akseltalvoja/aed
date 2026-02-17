@@ -35,10 +35,10 @@ preferences:
     enabled: true
 
 # Site Configuration
-title: "Your Site Title"
-heading: "Your Name"
-description: "A brief description of your site"
-url: "https://yoursite.com"
+title: "Natuke kõike"
+heading: "Aksel Talvoja"
+description: "Mõtted, blogi, märkused"
+url: "https://www.aksel.ee"
 baseurl: ""
 
 # Asset Configuration
@@ -57,7 +57,7 @@ menu:
 
 # Footer
 footer:
-  copyright: "© 2024 Your Name. Contents under CC-BY-NC"
+  copyright: "© 2026 Aksel Talvoja. Contents under CC-BY-NC"
   credits:
     enabled: true
     url: "/credits"

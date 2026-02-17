@@ -1,6 +1,7 @@
 ---
 ---
 
-{%- for post in site.posts -%}
-{{ post.title | strip_html | escape }}{% unless foorloop.last %};{% endunless %}
+{%- assign all_docs = site.notes | concat: site.posts -%}
+{%- for item in all_docs -%}
+{{ item.title | strip_html | escape }}{%- unless forloop.last -%};{%- endunless -%}
 {%- endfor -%}
