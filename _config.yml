@@ -36,7 +36,7 @@ preferences:
 
 # Site Configuration
 title: "Natuke kõike"
-heading: "Aksel Talvoja"
+heading: ""
 description: "Mõtted, blogi, märkused"
 url: "https://www.aksel.ee"
 baseurl: ""
@@ -50,8 +50,8 @@ ie_css: "/assets/css/ie-target.css"
 menu:
   - title: "Notes"
     url: "/notes"
-  - title: "Blog"
-    url: "/blog"
+  - title: "Blogi"
+    url: "/blogi"
   - title: "About"
     url: "/about"
 
@@ -85,7 +85,7 @@ defaults:
       layout: "Post"
       content-type: "post"
       feed: "show"
-      permalink: /blog/:title/
+      permalink: /blogi/:title/
 
 # Plugins
 plugins:
