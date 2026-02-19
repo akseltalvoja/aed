@@ -21,14 +21,16 @@
     <meta content="{{ site.url }}{{ page.url }}" property="og:url">
     {%- endif -%}
 
-    <title>{%- if page.title -%}{{ page.title }} - {%- endif -%}{{ site.heading }}</title>
+    <title>
+    {{ site.title }}
+    {% if page.title and page.title != "" %} | {{ page.title }}{% endif %}
+    {% if site.heading and site.heading != "" %} - {{ site.heading }}{% endif %}
+    </title>
     <link rel="canonical" href="{{site.url}}{{page.url}}" />
     {%- if site.apple_touch_icon -%}
     <link rel="apple-touch-icon" href="{{ site.baseurl }}{{ site.apple_touch_icon }}">
     {%- endif -%}
-    {%- if site.favicon -%}
-    <link rel="icon" href="{{ site.baseurl }}{{ site.favicon }}" type="image/svg+xml" sizes="any" />
-    {%- endif -%}
+    <link rel="icon" type="image/svg+xml" href="{{ site.baseurl }}/assets/img/favicon.svg">
     {%- if site.css_file -%}
     <link href="{{ site.baseurl }}{{ site.css_file }}" rel="stylesheet" media="all" class="default" />
     {%- else -%}
@@ -85,14 +87,43 @@
                 {%- endif -%}
             {%- endif -%}
 
-             <!--- Post Layout-->
-             {%- if page.content-type == "post"  -%}
-                 <h1>{{page.title}}</h1>
+            <!--- Post Layout-->
+            {%- if page.content-type == "post"  -%}
+                 
+                 <!-- START OF CENTERED HEADER -->
+                 <div class="post-header">
+                   <h1>{{page.title}}</h1>
+                   <p class="post-date">{{ page.date | date: "%d.%m.%Y" }}</p>
+                 </div>
+                 <!-- END OF CENTERED HEADER -->
+
                  {%- include Content.html -%}
-                 {%- if site.preferences.backlinks.enabled -%}
-                 {%- include Backlinks.html -%}
-                 {%- endif -%}
-             {%- endif -%}
+                 
+                 <!-- START OF NEW NAVIGATION BUTTONS -->
+                 <div class="post-navigation">
+                <!-- Previous Post (Left Side) -->
+                    {% if page.previous %}
+                        <a class="nav-btn prev" href="{{ page.previous.url | relative_url }}">
+                            <span class="nav-arrow">&larr;</span>
+                            <span class="nav-title">{{ page.previous.title }}</span>
+                        </a>
+                    {% else %}
+                        <div class="empty-nav"></div> <!-- Spacer -->
+                    {% endif %}
+                <!-- Next Post (Right Side) -->
+                    {% if page.next %}
+                        <a class="nav-btn next" href="{{ page.next.url | relative_url }}">
+                            <span class="nav-title">{{ page.next.title }}</span>
+                            <span class="nav-arrow">&rarr;</span>
+                        </a>
+                    {% endif %}
+                </div>
+                 <!-- END OF NEW NAVIGATION BUTTONS -->
+
+                {%- if site.preferences.backlinks.enabled -%}
+                {%- include Backlinks.html -%}
+                {%- endif -%}
+            {%- endif -%}
 
             <!--- Static Page Layout-->
             {%- if page.content-type == "static" -%}
@@ -101,14 +132,17 @@
             {%- endif -%}
             
             <!--- Blog Feed Layout-->
-            {%- if page.permalink == "/blog" -%}
+            {%- if page.permalink == "/blogi" -%}
                 <div class="related-wrapper">
-                {% assign post_items = site.posts | sort: "date" | reverse %}
-                {% for post_items in post_items %}
-                    {%- if post_items.feed == "show" -%}
+                {% assign post_list = site.posts | sort: "date" | reverse %}
+                {% for post in post_list %}
+                    {%- if post.feed == "show" -%}
                             <div class="notelist-feed">
-                                <a href="{{ site.baseurl }}{{post_items.url}}">
-                                    <p>{{ post_items.title }}</p>
+                                <a href="{{ site.baseurl }}{{post.url}}">
+                                    <div class="feed-layout">
+                                        <p class="feed-title">{{ post.title }}</p>
+                                        <span class="feed-date">{{ post.date | date: "%d.%m.%Y" }}</span>
+                                    </div>
                                 </a>
                             </div>
                     {%- endif -%}
