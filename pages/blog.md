@@ -1,8 +1,8 @@
 ---
-title: "Blog"
+title: "Blogi"
 layout: Post
-permalink: /blog
+permalink: /blogi
 content-type: "static"
 ---
 
-Browse all published blog posts. These are chronological, time-sensitive posts alongside the evergreen digital garden notes. 
+Kõik blogi postitused teen siia alla. Postitused on sorteeritud kronoloogiliselt.
