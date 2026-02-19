@@ -1,42 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
 :root {
-  --bg: rgb(255, 252, 240);
-  --bg2: rgb(242, 240, 229);
-  --text: #6f6e69;
-  --title: #343331;
-  --brand: rgb(58, 169, 159);
-  --border: rgb(230, 228, 217);
-  
+  /* Monokai Dark Variables */
+  --bg: #2D2A2E;
+  --bg2: #403E41;
+  --text: #FCFCFA;
+  --title: #FFD866;
+  --brand: #A9DC76;
+  --border: #5b595c;
+
+  /* Keep layout variables */
   --font: "Inter", sans-serif;
   --weight-medium: 400;
   --weight-bold: 600;
-  
   --space-xs: 0.5rem;
   --space-sm: 1rem;
   --space-md: 1.5rem;
   --space-lg: 2rem;
   --space-xl: 3rem;
-  
   --max-width: 48rem;
   --line-height: 1.5;
-  
-  /* 5-level typography scale (1rem = 15px) */
-  --scale-xs: 0.8rem;     /* 12px */
-  --scale-sm: 0.933rem;   /* 14px */
-  --scale-base: 1rem;     /* 15px */
-  --scale-lg: 1.2rem;     /* 18px */
-  --scale-xl: 1.4rem;     /* 21px */
+  --scale-xs: 0.8rem;
+  --scale-sm: 0.933rem;
+  --scale-base: 1rem;
+  --scale-lg: 1.2rem;
+  --scale-xl: 1.4rem;
 }
 
-/* Dark theme variables */
-[data-theme="dark"] {
-  --bg: #18181c;
-  --bg2: #23232a;
-  --text: #d6d6d6;
-  --title: #fff;
-  --brand: #3ac9b0;
-  --border: #33343a;
+/* Monokai Light */
+[data-theme="light"] {
+  --bg: #fafafa;
+  --bg2: #f0f0f0;
+  --text: #403e41;
+  --title: #2d2a2e;
+  --brand: #ff6188;
+  --border: #dcdcdc;
 }
 
 /* smooth transition on theme switching */
@@ -581,11 +579,12 @@ td {
   text-align: center;
 }
 
-/* Feed styles */
+/* --- Feed styles (Updated for Blog & Notes) --- */
 .notelist-feed {
   border-bottom: 1px solid var(--border);
   padding: var(--space-sm) 0;
   transition: background 0.3s ease;
+  display: block; /* Ensures the container fills the width */
 }
 
 .notelist-feed:hover {
@@ -595,15 +594,44 @@ td {
 .notelist-feed a {
   text-decoration: none;
   color: inherit;
+  display: block; /* Makes the whole row clickable */
+  width: 100%;
 }
 
-.notelist-feed p {
+/* Base style for the Title (Notes & Blog) */
+.notelist-feed p, 
+.feed-title {
   color: var(--title);
   margin-bottom: 0;
   font-size: var(--scale-base);
   font-weight: var(--weight-medium);
 }
 
+/* --- New: Flexbox Layout for Blog Posts (Title + Date) --- */
+.feed-layout {
+  display: flex;
+  justify-content: space-between; /* Pushes Title Left, Date Right */
+  align-items: baseline;          /* Aligns text on the text-line */
+  width: 100%;
+}
+
+/* New: Date Styling */
+.feed-date {
+  font-size: var(--scale-xs);     /* Smaller font (uses your theme variable) */
+  color: var(--text);
+  opacity: 0.6;                   /* Muted grey */
+  margin-left: var(--space-sm);
+  white-space: nowrap;            /* Keeps date on one line */
+  font-variant-numeric: tabular-nums;
+}
+
+/* Hover Effect: Highlight title when hovering the row */
+.notelist-feed:hover p,
+.notelist-feed:hover .feed-title {
+  color: var(--brand);
+}
+
+/* --- Keep your existing list-feed (Search results?) as is --- */
 .list-feed {
   border-bottom: 1px solid var(--border);
   padding: var(--space-sm) 0;
@@ -778,3 +806,89 @@ li a[href^="http://"]:after, li a[href^="https://"]:after {
   background-size: 1em 1em;
   opacity: 0.7;
 }
+
+/* --- Compact Blog Post Navigation --- */
+.post-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;       /* Reduced from 3rem */
+  padding-top: 1rem;      /* Reduced padding */
+  
+  gap: 1rem;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;    /* Keeps arrow and text on the same line */
+  flex-direction: row;    /* Forces side-by-side layout */
+  text-decoration: none;
+  padding: 0.5rem 0.8rem; /* Smaller button padding */
+  border-radius: 6px;
+  background-color: var(--bg2);
+  border: 1px solid var(--border);
+  max-width: 48%;         /* Prevents them from overlapping */
+  font-size: 0.9rem;      /* Smaller text */
+  transition: all 0.2s ease;
+  line-height: 1.2;
+}
+
+.nav-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--brand);
+  text-decoration: none;
+}
+
+/* Specific alignments */
+.nav-btn.prev {
+  text-align: left;
+  justify-content: flex-start;
+}
+
+.nav-btn.next {
+  text-align: right;
+  justify-content: flex-end; /* Aligns text to the right inside the button */
+  margin-left: auto;         /* Pushes button to far right */
+}
+
+/* The Title Text */
+.nav-title {
+  font-weight: 600;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Keeps title on one line */
+}
+
+/* The Arrows */
+.nav-arrow {
+  color: var(--brand);
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 0 6px; /* Space between arrow and text */
+}
+
+/* Spacer for when there is no previous post */
+.empty-nav {
+  width: 10px;
+}
+
+/* --- Centered Post Header --- */
+.post-header {
+  text-align: center;
+  margin-bottom: 2rem; /* Adds space between date and content */
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border); /* Optional: Adds a line under the header */
+}
+
+.post-header h1 {
+  margin-bottom: 0.5rem; /* Pulls the date closer to the title */
+}
+
+.post-date {
+  color: var(--text);
+  opacity: 0.7;        /* Makes it slightly grey/faded */
+  font-style: italic;  /* Makes it look like your example */
+  font-size: 0.9rem;
+  margin-top: 0;
+}
+
