@@ -1,8 +1,9 @@
 ---
-title: "Test postitus 2"
-date: 2025-01-15
-categories: [jekyll, digital-garden]
-tags: [welcome, introduction]
+title: "Kolmas mäepäev"
+date: 2026-02-26
+published: false
+categories: [slovakkia, reis]
+tags: [slovakkia, reis]
 ---
 
 Jekyll Garden is a thoughtfully minimal theme for Jekyll that transforms your Obsidian vault into a beautiful, interconnected website. It's designed for those who value clarity and focus, letting your notes and ideas shine without distraction.
@@ -16,5 +17,4 @@ Jekyll Garden is a thoughtfully minimal theme for Jekyll that transforms your Ob
 - **Search Functionality**: Full-text search across all content
 
 ---
-
-*Start building your own digital garden and see how your ideas connect and flourish over time.* 
+*Tervelt ja elusalt tagasi* 

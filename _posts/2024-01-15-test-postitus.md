@@ -1,11 +1,13 @@
 ---
-title: "Test postitus 1"
+title: "Test postitus"
 date: 2024-01-15
 categories: [jekyll, digital-garden]
 tags: [welcome, introduction]
 ---
 
 Jekyll Garden is a thoughtfully minimal theme for Jekyll that transforms your Obsidian vault into a beautiful, interconnected website. It's designed for those who value clarity and focus, letting your notes and ideas shine without distraction.
+
+![Alt text](/assets/img/OGImg.png)
 
 ## What Makes It Special
 
