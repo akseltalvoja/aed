@@ -1,6 +1,7 @@
 ---
 title: "Slovakkia ettevalmistus"
 date: 2026-02-18
+published: false
 categories: [slovakkia, reis]
 tags: [tutvustus, ettevalmistus]
 ---

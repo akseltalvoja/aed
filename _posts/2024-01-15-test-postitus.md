@@ -1,6 +1,7 @@
 ---
-title: "Test postitus"
+title: "TEST POSTITUS"
 date: 2024-01-15
+published: false
 categories: [jekyll, digital-garden]
 tags: [welcome, introduction]
 ---
