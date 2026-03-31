@@ -1,11 +1,10 @@
 ---
-title: "Credits"
+title: "Credits and Acknowledgments"
 layout: Post
 permalink: /credits
 content-type: "static"
 ---
 
-# Credits and Acknowledgments
 
 Jekyll Garden wouldn't exist without the contributions of many talented developers and designers. Here's who made it possible:
 
