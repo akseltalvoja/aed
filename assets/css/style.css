@@ -1136,37 +1136,33 @@ svg {
     z-index: -1;
     overflow: hidden;
     pointer-events: none;
+    will-change: transform;
+    contain: strict;
+    transform: translateZ(0);
 
-    /* CHANGE: Anchor the visible part to the top-left, fading out to the bottom-right */
     mask-image: radial-gradient(at 0% 0%, black 20%, transparent 85%);
     -webkit-mask-image: radial-gradient(at 0% 0%, black 20%, transparent 85%);
+
+    /* Container-level glow — much cheaper than per-character text-shadow */
+    filter: drop-shadow(0 0 4px var(--brand));
+    opacity: 0.3;
 }
 
 .ascii-background pre {
-    /* REMOVE default margins/padding that cause the gap */
     margin: 0 !important;
     padding: 0 !important;
-    
-    /* FORCE position to the absolute top-left corner */
     position: absolute;
     top: 0;
     left: 0;
-
     font-size: 5px;
     line-height: 1;
     color: var(--brand);
-    text-shadow: 0 0 2px var(--brand), 0 0 5px var(--brand);
-    opacity: 0.3; 
-    
     background: transparent !important;
     border: none !important;
-    filter: saturate(1.5);
-    
-    /* Ensure no wrapping happens */
     white-space: pre;
 }
 
 [data-theme="light"] .ascii-background {
     opacity: 0.05;
-    filter: grayscale(1) invert(1);
+    filter: grayscale(1) invert(1) drop-shadow(0 0 4px var(--brand));
 }
