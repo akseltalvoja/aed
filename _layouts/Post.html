@@ -52,30 +52,41 @@
 </head>
 
 <body>
+    {% include ascii-bg.html %}
     <div class="container">
         <div>
             {%- include Nav.html -%}
-            
             <!-- Homepage Layout-->
             {%- if page.permalink == "/" -%}
+                <header class="system-meta">
+                     <span class="status-indicator"></span> 
+                     LIBRARIUM_001 // <span id="clock">SYSTEM_LOADING...</span>
+                </header>
+                
+                <div class="content-wrapper">
+                    {%- include Content.html -%}
+                </div>
+
                 {%- if site.preferences.homepage.enabled -%}
-                    <!--- Show content from index.md when homepage is enabled -->
-                    {%- include Content.html -%}
+                    {%- include Contact.html -%}
                 {%- else -%}
-                    <!--- Show content from notes.md + search + feed when homepage is disabled -->
-                    <h1>{{page.title}}</h1>
-                    {%- include Content.html -%}
-                    {%- include Search.html -%}
                     {%- include Feed.html -%}
                 {%- endif -%}
             {%- endif -%}
 
             <!--- Notes Feed Layout-->
-            {%- if page.permalink == "/notes" -%}
+            {%- if page.permalink == "/library" -%}
+            <header class="system-meta">
+                <span class="status-indicator"></span> 
+                INDEX_REF // PERSISTENT_STORAGE
+            </header>
                 <h1>{{page.title}}</h1>
                 {%- include Content.html -%}
                 {%- include Search.html -%}
                 {%- include Feed.html -%}
+                <div class="footer-joke">
+                    "This page is the only thing standing between me and total memory loss. If you find a note that makes no sense, I probably wrote it at 3:00 AM."
+                </div>
             {%- endif -%}
 
             <!--- Notes Layout-->
@@ -127,6 +138,10 @@
 
             <!--- Static Page Layout-->
             {%- if page.content-type == "static" -%}
+            <header class="system-meta">
+                <span class="status-indicator"></span> 
+                ACTIVE_DEPLOYMENTS // MIGHT_NOT_BE_SO_ACTIVE
+            </header>
                 <h1>{{page.title}}</h1>                        
                 {%- include Content.html -%}
             {%- endif -%}
