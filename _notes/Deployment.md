@@ -1,6 +1,6 @@
 ---
 title: Deployment
-feed: show
+feed: hide
 date: 2024-01-15
 ---
 
