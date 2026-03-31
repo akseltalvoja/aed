@@ -1058,29 +1058,19 @@ svg {
     background: transparent;
 }
 
-.nav-block .code-label {
-    font-size: 0.7rem;
-    font-family: monospace;
-    color: var(--brand); /* Crimson label */
-    margin-bottom: 0.5rem;
-}
-
 .nav-block .nav-text {
     font-size: var(--scale-lg);
     font-weight: 600;
     color: var(--title);
-    text-transform: uppercase;
 }
 
-/* Hover Inversion Effect */
 .nav-block:hover {
-    background-color: var(--brand);
-    border-color: var(--brand);
+    border-color: var(--title);
+    background-color: transparent;
 }
 
-.nav-block:hover .nav-text,
-.nav-block:hover .code-label {
-    color: var(--bg); /* Turns black inside the red box */
+.nav-block:hover .nav-text {
+    color: var(--title);
 }
 
 /* Mobile Responsive */
