@@ -1,16 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600&display=swap');
 
 :root {
-  /* Monokai Dark Variables */
-  --bg: #2D2A2E;
-  --bg2: #403E41;
-  --text: #FCFCFA;
-  --title: #FFD866;
-  --brand: #A9DC76;
-  --border: #5b595c;
+  /* Swiss Dark */
+  --bg: #111111;           /* Near Black */
+  --bg2: #1c1c1c;          /* Dark Grey Surface */
+  --text: #888888;         /* Medium Grey for contrast */
+  --title: #e5e5e5;        /* Soft White */
+  --brand: #e63946;        /* Bold Crimson Red */
+  --border: #2a2a2a;       /* Dark Border */
 
   /* Keep layout variables */
-  --font: "Inter", sans-serif;
+  --font: "Space Grotesk", sans-serif;
   --weight-medium: 400;
   --weight-bold: 600;
   --space-xs: 0.5rem;
@@ -19,22 +19,22 @@
   --space-lg: 2rem;
   --space-xl: 3rem;
   --max-width: 48rem;
-  --line-height: 1.5;
+  --line-height: 1.6;      /* Slightly increased for professionalism */
   --scale-xs: 0.8rem;
   --scale-sm: 0.933rem;
   --scale-base: 1rem;
-  --scale-lg: 1.2rem;
-  --scale-xl: 1.4rem;
+  --scale-lg: 1.25rem;
+  --scale-xl: 1.5rem;
 }
 
-/* Monokai Light */
 [data-theme="light"] {
-  --bg: #fafafa;
-  --bg2: #f0f0f0;
-  --text: #403e41;
-  --title: #2d2a2e;
-  --brand: #ff6188;
-  --border: #dcdcdc;
+  /* Swiss Light */
+  --bg: #ffffff;           /* Pure White */
+  --bg2: #f4f4f4;          /* Gallery Grey */
+  --text: #555555;         /* Charcoal Grey */
+  --title: #111111;        /* Near Black */
+  --brand: #d90429;        /* Deep Crimson */
+  --border: #e0e0e0;       /* Light Grey Border */
 }
 
 /* smooth transition on theme switching */
@@ -60,6 +60,10 @@ body {
   color: var(--text);
   background: var(--bg);
   font-size: var(--scale-base);
+
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 30px 30px; /* Controls distance between dots */
+  background-attachment: fixed; /* Keeps dots static when scrolling */
 }
 
 .container {
@@ -87,88 +91,121 @@ body {
 
 .nav-left a {
   text-decoration: none;
+  color: var(--title);
 }
 
-.logo {
-  width: 32px;
-  height: 32px;
-  display: block;
+.logo, .hamburger {
+  text-decoration: none; /* Remove underline if any */
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Start State */
+  background-color: transparent;
+  color: var(--title);  /* This is the icon color */
+  border-radius: 0px; 
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  outline: none;
+}
+
+.logo:hover svg {
+  
+  color: var(--bg);
+}
+
+.logo:hover, 
+.hamburger:hover,
+.hamburger.active {
+  background-color: var(--brand) !important;
+  color: var(--bg) !important; /* Forces the text/icon color to the background color (black) */
 }
 
 .dropdown {
   position: relative;
 }
 
-.hamburger {
-  cursor: pointer;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--title);
+.logo.active {
+  background-color: var(--brand);
+  color: var(--bg);
 }
 
+.logo svg, 
 .hamburger svg {
-  transition: transform 0.3s ease;
+  /* This is the most important part: */
+  fill: currentColor !important; 
+  stroke: currentColor !important; 
+  
+  transition: transform 0.2s ease;
+  width: 28px;
+  height: 28px;
 }
 
 .hamburger.active svg {
-  transform: rotate(90deg);
+  transform: rotate(-90deg); /* Counter-clockwise feels more aggressive */
 }
 
+.dropdown {
+  position: relative; 
+}
+
+/* 2. Unified Dropdown Style (Mobile & Desktop) */
 .dropdown-menu {
-  position: fixed;
-  top: 60px;
-  left: 0;
-  right: 0;
-  background: var(--bg);
-  border-top: 1px solid var(--border);
+  /* POSITIONING FIX: Use absolute to stick to the hamburger */
+  position: absolute;
+  top: 100%;       /* Starts directly below the hamburger */
+  right: 0;        /* Aligns to the right edge of the hamburger */
+  left: auto;      /* Prevents it from stretching across the screen */
+  margin-top: 10px; /* Adds a small gap between icon and menu */
+  
+  /* Sizing */
+  width: 220px;    /* Set a comfortable width for both mobile and desktop */
+  
+  /* Visuals (Your Glass Effect) */
+  background: rgba(45, 42, 46, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  
+  border: 1px solid var(--border);
+  border-radius: 12px;
   padding: var(--space-sm);
+  
+  /* Animation (Keep as is) */
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1001;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
+/* 3. Active State */
 .dropdown.active .dropdown-menu {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
 
+/* 4. Link Styles */
 .dropdown-menu a {
   display: block;
-  padding: var(--space-sm);
+  padding: 0.75rem 1rem; /* Comfortable touch target size */
   color: var(--text);
   text-decoration: none;
-  transition: 0.3s ease;
+  transition: 0.2s ease;
   border-radius: 0.5rem;
   font-size: var(--scale-base);
 }
 
 .dropdown-menu a:hover {
   color: var(--brand);
-  background: var(--bg2);
+  background: var(--bg2); /* Highlighting */
 }
 
-@media (min-width: 768px) {
-  .dropdown-menu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    left: auto;
-    width: 200px;
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
-  }
-  
-  .dropdown-menu a {
-    padding: 0.75rem 1rem;
-    font-size: var(--scale-base);
-  }
-}
+
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font);
@@ -177,11 +214,43 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.5;
 }
 
-h1 {
-  font-size: clamp(1.2rem, 4vw, 1.4rem);
-  font-weight: var(--weight-bold);
-  margin-bottom: var(--space-lg);
+.system-meta {
+    font-family: var(--font);
+    font-size: var(--scale-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    color: var(--brand); /* Crimson Red */
+    margin-bottom: var(--space-sm);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.8;
 }
+
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    background-color: var(--brand);
+    display: inline-block;
+    /* Optional: subtle blink for the hacky vibe */
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* Index Title specific styling */
+h1 {
+    font-weight: 600;
+    font-size: var(--scale-xl);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: var(--space-xs);
+    margin-top: 0;
+}
+
+
 
 h2 {
   font-size: clamp(1.1rem, 3vw, 1.2rem);
@@ -386,22 +455,19 @@ blockquote {
   border-radius: 0.25rem;
 }
 
-code {
-  background: var(--bg2);
-  padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
-  font-size: 0.875em;
-  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-  color: var(--text);
+pre {
+    background-color: #000000 !important; /* Pure black background */
+    border-left: 3px solid var(--brand); /* Crimson accent line */
+    padding: 1rem;
+    overflow-x: auto;
+    position: relative;
+    border-radius: 0; /* Keep it sharp/Swiss */
 }
 
-pre {
-  background: var(--bg2);
-  padding: var(--space-md);
-  border-radius: 0.5rem;
-  overflow-x: auto;
-  margin: var(--space-lg) 0;
-  border: 1px solid var(--border);
+code {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.9rem;
+    color: #e0e0e0;
 }
 
 pre code {
@@ -806,31 +872,38 @@ li a[href^="http://"]:after, li a[href^="https://"]:after {
   background-size: 1em 1em;
   opacity: 0.7;
 }
-<<<<<<< HEAD
 
 /* --- Compact Blog Post Navigation --- */
 .post-navigation {
   display: flex;
   justify-content: space-between;
-  margin-top: 2rem;       /* Reduced from 3rem */
-  padding-top: 1rem;      /* Reduced padding */
-  
-  gap: 1rem;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 1rem; 
+  gap: 0.8rem; /* Small gap to save space on mobile */
 }
 
 .nav-btn {
   display: flex;
-  align-items: center;    /* Keeps arrow and text on the same line */
-  flex-direction: row;    /* Forces side-by-side layout */
+  align-items: center;
   text-decoration: none;
-  padding: 0.5rem 0.8rem; /* Smaller button padding */
+  padding: 0.5rem 0.6rem; /* Tighter padding for mobile */
   border-radius: 6px;
   background-color: var(--bg2);
   border: 1px solid var(--border);
-  max-width: 48%;         /* Prevents them from overlapping */
-  font-size: 0.9rem;      /* Smaller text */
-  transition: all 0.2s ease;
+  
+  /* FORCE SIDE-BY-SIDE LAYOUT */
+  width: 100%;       /* Try to fill space... */
+  max-width: 48%;    /* ...but never exceed half the screen */
+  flex: 1;           /* Grow evenly */
+  
+  font-size: 0.85rem;
   line-height: 1.2;
+  transition: all 0.2s ease;
+  
+  /* Vital for text truncation in Flexbox */
+  min-width: 0; 
+  overflow: hidden; 
 }
 
 .nav-btn:hover {
@@ -839,25 +912,28 @@ li a[href^="http://"]:after, li a[href^="https://"]:after {
   text-decoration: none;
 }
 
-/* Specific alignments */
+/* Alignments */
 .nav-btn.prev {
-  text-align: left;
   justify-content: flex-start;
+  text-align: left;
 }
 
 .nav-btn.next {
+  justify-content: flex-end;
   text-align: right;
-  justify-content: flex-end; /* Aligns text to the right inside the button */
-  margin-left: auto;         /* Pushes button to far right */
+  margin-left: auto; /* Pushes it to the right */
 }
 
 /* The Title Text */
 .nav-title {
   font-weight: 600;
   color: var(--text);
+  
+  /* Text Truncation Logic */
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap; /* Keeps title on one line */
+  flex-grow: 1; /* Takes up remaining space */
 }
 
 /* The Arrows */
@@ -865,12 +941,13 @@ li a[href^="http://"]:after, li a[href^="https://"]:after {
   color: var(--brand);
   font-weight: bold;
   font-size: 1.1rem;
-  padding: 0 6px; /* Space between arrow and text */
+  padding: 0 4px;
+  flex-shrink: 0; /* Prevents arrow from squishing */
 }
 
 /* Spacer for when there is no previous post */
 .empty-nav {
-  width: 10px;
+  width: 1px;
 }
 
 /* --- Centered Post Header --- */
@@ -893,5 +970,203 @@ li a[href^="http://"]:after, li a[href^="https://"]:after {
   margin-top: 0;
 }
 
-=======
->>>>>>> f3fe56dfa2810c54b3b3142b5fa4751627e63490
+/* --- Homepage Contact Buttons --- */
+.contact-links {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.contact-btn {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 20px; /* Rounded pill shape */
+  background-color: var(--bg2);
+  color: var(--text);
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.contact-btn:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+::selection {
+  background-color: var(--brand); /* Your Green/Brand color */
+  color: var(--bg); /* The text turns dark for contrast */
+}
+
+/* --- Fix for Light Mode Dropdown --- */
+[data-theme="light"] .dropdown-menu {
+  /* White background with 95% opacity */
+  background: rgba(255, 255, 255, 0.95);
+  
+  /* Lighter border and shadow so it looks clean on white */
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+svg {
+  width: 28px; /* Slightly smaller looks more precise/professional */
+  height: 28px;
+  display: block;
+}
+
+.footer-joke {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--border);
+    font-size: var(--scale-sm);
+    color: var(--text); /* Muted color so it doesn't scream */
+    font-style: italic;
+    opacity: 0.6;
+    text-align: center;
+    max-width: 30rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Add a little hover effect to reward people for finding it */
+.footer-joke:hover {
+    opacity: 1;
+    color: var(--brand);
+    transition: all 0.3s ease;
+}
+
+/* Index Navigation Blocks */
+.index-nav {
+    display: flex;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.nav-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    text-decoration: none;
+    transition: all 0.2s;
+    background: transparent;
+}
+
+.nav-block .code-label {
+    font-size: 0.7rem;
+    font-family: monospace;
+    color: var(--brand); /* Crimson label */
+    margin-bottom: 0.5rem;
+}
+
+.nav-block .nav-text {
+    font-size: var(--scale-lg);
+    font-weight: 600;
+    color: var(--title);
+    text-transform: uppercase;
+}
+
+/* Hover Inversion Effect */
+.nav-block:hover {
+    background-color: var(--brand);
+    border-color: var(--brand);
+}
+
+.nav-block:hover .nav-text,
+.nav-block:hover .code-label {
+    color: var(--bg); /* Turns black inside the red box */
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+    .index-nav {
+        flex-direction: column;
+    }
+}
+
+.ascii-art {
+    /* Remove all box styling */
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    
+    /* Centering and floating */
+    display: block;
+    margin: 4rem auto;      /* Significant margin makes it "float" in space */
+    text-align: center;
+    width: 100%;
+    
+    /* Aesthetics */
+    font-family: monospace;
+    font-size: 8px;
+    line-height: 1.2;
+    color: var(--brand);    /* Crimson Red */
+    opacity: 0.5;
+    
+    /* Housekeeping */
+    pointer-events: none;
+    user-select: none;
+    white-space: pre;
+}
+
+@keyframes float-glow {
+    0% { opacity: 0.4; transform: translateY(0); }
+    50% { opacity: 0.7; transform: translateY(-5px); }
+    100% { opacity: 0.4; transform: translateY(0); }
+}
+
+.ascii-art {
+    animation: float-glow 6s infinite ease-in-out;
+}
+
+.ascii-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+
+    /* CHANGE: Anchor the visible part to the top-left, fading out to the bottom-right */
+    mask-image: radial-gradient(at 0% 0%, black 20%, transparent 85%);
+    -webkit-mask-image: radial-gradient(at 0% 0%, black 20%, transparent 85%);
+}
+
+.ascii-background pre {
+    /* REMOVE default margins/padding that cause the gap */
+    margin: 0 !important;
+    padding: 0 !important;
+    
+    /* FORCE position to the absolute top-left corner */
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    font-size: 5px;
+    line-height: 1;
+    color: var(--brand);
+    text-shadow: 0 0 2px var(--brand), 0 0 5px var(--brand);
+    opacity: 0.3; 
+    
+    background: transparent !important;
+    border: none !important;
+    filter: saturate(1.5);
+    
+    /* Ensure no wrapping happens */
+    white-space: pre;
+}
+
+[data-theme="light"] .ascii-background {
+    opacity: 0.05;
+    filter: grayscale(1) invert(1);
+}
