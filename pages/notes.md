@@ -1,7 +1,9 @@
 ---
-title: Notes
+title: Library
 layout: Post
-permalink: /notes
+permalink: /library
 ---
 
-Browse all published notes in your digital garden. Notes are organized by connections, not chronology. Click any note to explore its links and context.
+A persistent index of fragmented thoughts, technical research, and non-linear documentation. This space serves as an external brain—capturing insights before they are lost to the void.
+
+*Expect missing context and ongoing revisions.*
