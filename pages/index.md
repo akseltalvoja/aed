@@ -1,10 +1,10 @@
 ---
-layout: Post
+layout: none
 permalink: /index.html
-title: My Personal Digital Garden
-content-type: "static"
 ---
 
-# My Personal Digital Garden
+<div align="center">
 
-A place where I collect thoughts, notes, and things I find worth remembering.
+Maasikad ja lilled.
+
+</div>
