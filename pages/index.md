@@ -1,10 +1,7 @@
 ---
-layout: none
+layout: Simple
 permalink: /index.html
 ---
 
-<div align="center">
+# Maasikad ja lilled
 
-Maasikad ja lilled.
-
-</div>
