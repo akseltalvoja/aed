@@ -4,11 +4,280 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ page.title | default: site.title }}</title>
-    <link href="{{ site.baseurl }}/assets/css/simple.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Space Grotesk', system-ui, sans-serif;
+        }
+
+        /* Plastic frame */
+        .board-frame {
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(160deg, #d2cec6 0%, #c8c4bc 40%, #bab6ae 100%);
+            display: flex;
+            flex-direction: column;
+            padding: 18px 20px 0;
+            gap: 5px;
+            box-shadow:
+                inset 0 4px 0 rgba(255,255,255,0.38),
+                inset 0 -4px 8px rgba(0,0,0,0.28),
+                inset 4px 0 8px rgba(0,0,0,0.1),
+                inset -4px 0 8px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* Side shadow lines to give the frame depth */
+        .board-frame::before,
+        .board-frame::after {
+            content: '';
+            position: absolute;
+            top: 18px;
+            bottom: 37px;
+            width: 4px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.14) 50%, rgba(0,0,0,0.06));
+        }
+        .board-frame::before { left: 8px; }
+        .board-frame::after  { right: 8px; }
+
+        /* Whiteboard surface */
+        .board-surface {
+            flex: 1;
+            background: #f6f6f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                inset 0 0 80px rgba(0,0,0,0.04),
+                inset 2px 2px 12px rgba(0,0,0,0.07);
+        }
+
+        /* Glare */
+        .board-surface::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(170deg, rgba(255,255,255,0.18) 0%, transparent 40%),
+                linear-gradient(80deg, rgba(255,255,255,0.07) 0%, transparent 25%);
+            pointer-events: none;
+        }
+
+        /* Bottom marker tray */
+        .board-tray {
+            height: 34px;
+            background: linear-gradient(180deg, #9e9a96 0%, #aca8a2 35%, #989490 100%);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 10px;
+        }
+
+        .marker {
+            height: 15px;
+            width: 54px;
+            border-radius: 7px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        .eraser {
+            margin-left: auto;
+            width: 48px;
+            height: 17px;
+            background: linear-gradient(180deg, #f0ede8, #e0ddd8);
+            border-radius: 3px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.6);
+        }
+
+        /* Post-it stack wrapper */
+        .postit-stack {
+            position: relative;
+            width: 265px;
+        }
+
+        /* Hidden note underneath */
+        .postit-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 265px;
+            height: 100%;
+            background: #ffcc80;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(1.2deg);
+            box-shadow: 2px 6px 18px rgba(0,0,0,0.18);
+            z-index: 0;
+        }
+
+        /* Post-it note */
+        .postit {
+            position: relative;
+            background: #fff176;
+            width: 265px;
+            padding: 22px 24px 26px;
+            transform: rotate(-1.6deg);
+            transform-origin: top center;
+            box-shadow:
+                3px 8px 24px rgba(0,0,0,0.22),
+                0 1px 3px rgba(0,0,0,0.1);
+            z-index: 1;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+        }
+
+        .postit.lifted {
+            transform: rotate(-1.6deg) translateY(-110%) scale(1.03);
+            box-shadow:
+                6px 20px 48px rgba(0,0,0,0.30),
+                0 2px 6px rgba(0,0,0,0.14);
+        }
+
+        /* Folded corner — now a real clickable element */
+        .postit-fold {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .postit-fold::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border-width: 0 0 22px 22px;
+            border-style: solid;
+            border-color: transparent transparent #d4c900 transparent;
+            transition: border-width 0.2s ease;
+        }
+
+        .postit-fold:hover::after {
+            border-width: 0 0 28px 28px;
+        }
+
+        .postit-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .postit hr {
+            border: none;
+            border-top: 1px solid rgba(0,0,0,0.13);
+            margin-bottom: 11px;
+        }
+
+        .postit a {
+            display: block;
+            color: #2a2a2a;
+            text-decoration: none;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            margin-bottom: 5px;
+            padding-left: 2px;
+        }
+
+        .postit a:hover {
+            text-decoration: underline;
+            color: #000;
+        }
+    </style>
 </head>
 <body>
-    <div style="text-align: center; padding-top: 4rem;">
-        {{ content }}
+    <div class="board-frame">
+        <div class="board-surface">
+            <!-- badly drawn doodles in marker style -->
+            <svg style="position:absolute;left:7%;bottom:12%;opacity:0.82;pointer-events:none;" width="160" height="170" viewBox="0 0 160 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- sun rays - wobbly lines -->
+                <line x1="80" y1="10" x2="82" y2="28" stroke="#e8a000" stroke-width="3.5" stroke-linecap="round"/>
+                <line x1="112" y1="19" x2="103" y2="34" stroke="#e8a000" stroke-width="3.5" stroke-linecap="round"/>
+                <line x1="133" y1="46" x2="118" y2="53" stroke="#e8a000" stroke-width="3.5" stroke-linecap="round"/>
+                <line x1="140" y1="78" x2="122" y2="77" stroke="#e8a000" stroke-width="3.5" stroke-linecap="round"/>
+                <line x1="128" y1="110" x2="113" y2="101" stroke="#e8a000" stroke-width="3.5" stroke-linecap="round"/>
+                <line x1="48" y1="19" x2="57" y2="34" stroke="#e8a000" stroke-width="3.5" stroke-linecap="round"/>
+                <line x1="27" y1="47" x2="42" y2="54" stroke="#e8a000" stroke-width="3.5" stroke-linecap="round"/>
+                <line x1="20" y1="78" x2="38" y2="78" stroke="#e8a000" stroke-width="3.5" stroke-linecap="round"/>
+                <line x1="33" y1="110" x2="48" y2="101" stroke="#e8a000" stroke-width="3.5" stroke-linecap="round"/>
+                <!-- sun circle - slightly wobbly -->
+                <path d="M52 78 C51 60 62 46 80 45 C99 44 111 59 112 78 C113 97 100 111 81 112 C62 113 53 96 52 78 Z" stroke="#e8a000" stroke-width="3.5" fill="none" stroke-linejoin="round"/>
+                <!-- smiley face -->
+                <path d="M68 74 C68 71 71 69 74 70" stroke="#e8a000" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <path d="M87 70 C90 69 93 71 93 74" stroke="#e8a000" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <path d="M69 84 C73 91 89 92 93 84" stroke="#e8a000" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <!-- flower stem -->
+                <path d="M80 112 C79 125 81 138 80 152" stroke="#3a9a3a" stroke-width="3" stroke-linecap="round"/>
+                <!-- leaf -->
+                <path d="M80 135 C72 128 64 131 65 138 C66 145 77 141 80 135 Z" stroke="#3a9a3a" stroke-width="2.5" fill="none"/>
+            </svg>
+            <!-- wobbly tree top right -->
+            <svg style="position:absolute;right:3%;top:4%;opacity:0.80;pointer-events:none;" width="160" height="200" viewBox="0 0 160 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- canopy - lumpy and irregular -->
+                <path d="M78 8 C63 4 44 10 38 26 C28 20 15 30 17 46 C8 51 5 64 14 73 C11 86 19 99 33 98 C37 110 51 117 65 112 C72 121 86 122 96 115 C109 120 122 111 122 99 C134 97 141 85 136 73 C144 64 141 49 131 44 C131 28 118 17 104 18 C97 8 86 4 78 8 Z" stroke="#3a9a3a" stroke-width="3.5" fill="none" stroke-linejoin="round"/>
+                <!-- inner leaf squiggles -->
+                <path d="M42 52 C48 46 57 50 54 58" stroke="#3a9a3a" stroke-width="2" stroke-linecap="round"/>
+                <path d="M86 28 C94 30 100 40 93 45" stroke="#3a9a3a" stroke-width="2" stroke-linecap="round"/>
+                <path d="M62 82 C68 74 80 77 77 86" stroke="#3a9a3a" stroke-width="2" stroke-linecap="round"/>
+                <path d="M104 62 C112 58 118 67 111 73" stroke="#3a9a3a" stroke-width="2" stroke-linecap="round"/>
+                <!-- trunk - wobbly -->
+                <path d="M78 112 C76 128 79 142 77 158 C75 170 78 185 76 200" stroke="#7a4a1e" stroke-width="5" stroke-linecap="round"/>
+                <!-- root flare left -->
+                <path d="M77 185 C70 183 62 188 58 196" stroke="#7a4a1e" stroke-width="3.5" stroke-linecap="round"/>
+                <!-- root flare right -->
+                <path d="M77 190 C84 187 91 192 94 200" stroke="#7a4a1e" stroke-width="3.5" stroke-linecap="round"/>
+                <!-- side branch left -->
+                <path d="M77 135 C68 128 58 124 50 118" stroke="#7a4a1e" stroke-width="3" stroke-linecap="round"/>
+                <!-- side branch right -->
+                <path d="M78 148 C87 140 96 137 104 130" stroke="#7a4a1e" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <div class="postit-stack">
+                <!-- back note with heart -->
+                <div class="postit-back">
+                    <svg width="100" height="90" viewBox="0 0 100 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 78 C48 75 20 58 14 40 C9 26 18 12 30 12 C38 12 45 18 50 25 C55 18 62 12 70 12 C82 12 91 26 86 40 C80 58 52 75 50 78 Z" stroke="#e05555" stroke-width="3.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <!-- front note -->
+                <div class="postit" id="main-postit">
+                    <div class="postit-name">Aksel Talvoja</div>
+                    <hr />
+                    <a href="mailto:aksel.talvoja@gmail.com">✉ aksel.talvoja@gmail.com</a>
+                    <a href="https://linkedin.com/in/aksel-talvoja-70b193267/">in LinkedIn</a>
+                    <a href="https://www.aksel.ee">↗ aksel.ee</a>
+                    <div class="postit-fold" id="postit-fold"></div>
+                </div>
+            </div>
+        </div>
+        <div class="board-tray">
+            <div class="marker" style="background: linear-gradient(180deg, #4a7bda, #2a5298);"></div>
+            <div class="marker" style="background: linear-gradient(180deg, #f05252, #c0392b);"></div>
+            <div class="marker" style="background: linear-gradient(180deg, #3ed680, #27ae60);"></div>
+            <div class="marker" style="background: linear-gradient(180deg, #555, #222);"></div>
+            <div class="eraser"></div>
+        </div>
     </div>
+    <script>
+        const fold = document.getElementById('postit-fold');
+        const note = document.getElementById('main-postit');
+        fold.addEventListener('click', function(e) {
+            e.stopPropagation();
+            note.classList.toggle('lifted');
+        });
+        document.addEventListener('click', function() {
+            note.classList.remove('lifted');
+        });
+    </script>
 </body>
 </html>
